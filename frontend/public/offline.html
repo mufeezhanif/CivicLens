@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4F46E5">
+  <title>Offline - CivicLens</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: #f3f4f6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon svg {
+      width: 40px;
+      height: 40px;
+      color: #6b7280;
+    }
+
+    h1 {
+      color: #1f2937;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .offline-features {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .offline-features h3 {
+      color: #374151;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .offline-features ul {
+      list-style: none;
+    }
+
+    .offline-features li {
+      color: #4b5563;
+      font-size: 14px;
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .offline-features li::before {
+      content: "✓";
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #4F46E5;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .status.offline {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .status.online {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status.offline .status-dot {
+      background: #dc2626;
+    }
+
+    .status.online .status-dot {
+      background: #16a34a;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .draft-notice {
+      margin-top: 20px;
+      padding: 16px;
+      background: #fefce8;
+      border-radius: 8px;
+      border: 1px solid #fde047;
+      display: none;
+    }
+
+    .draft-notice.show {
+      display: block;
+    }
+
+    .draft-notice p {
+      color: #854d0e;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4F46E5;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+      </svg>
+    </div>
+
+    <div class="logo">🏛️ CivicLens</div>
+    <h1>You're Offline</h1>
+    <p>Don't worry! You can still use some features while offline. Your data will sync when you're back online.</p>
+
+    <div class="offline-features">
+      <h3>Available Offline</h3>
+      <ul>
+        <li>View cached complaints</li>
+        <li>Draft new complaints</li>
+        <li>View saved map areas</li>
+        <li>Access your profile</li>
+      </ul>
+    </div>
+
+    <button class="btn" onclick="tryReconnect()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+      Try Again
+    </button>
+
+    <div class="status offline" id="connectionStatus">
+      <span class="status-dot"></span>
+      <span id="statusText">No internet connection</span>
+    </div>
+
+    <div class="draft-notice" id="draftNotice">
+      <p>📝 You have <strong id="draftCount">0</strong> draft complaint(s) waiting to be submitted.</p>
+    </div>
+  </div>
+
+  <script>
+    // Check connection status
+    function updateConnectionStatus() {
+      const statusEl = document.getElementById('connectionStatus');
+      const statusText = document.getElementById('statusText');
+      
+      if (navigator.onLine) {
+        statusEl.className = 'status online';
+        statusText.textContent = 'Connection restored!';
+        
+        // Redirect back to app after a moment
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1500);
+      } else {
+        statusEl.className = 'status offline';
+        statusText.textContent = 'No internet connection';
+      }
+    }
+
+    // Try to reconnect
+    function tryReconnect() {
+      const btn = document.querySelector('.btn');
+      btn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="animation: spin 1s linear infinite;">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Checking...
+      `;
+      
+      // Add spin animation
+      const style = document.createElement('style');
+      style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+      document.head.appendChild(style);
+      
+      setTimeout(() => {
+        if (navigator.onLine) {
+          window.location.reload();
+        } else {
+          btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Try Again
+          `;
+        }
+      }, 2000);
+    }
+
+    // Check for drafts in IndexedDB
+    async function checkDrafts() {
+      try {
+        const request = indexedDB.open('CivicLensOffline', 1);
+        
+        request.onsuccess = (event) => {
+          const db = event.target.result;
+          
+          if (db.objectStoreNames.contains('pendingComplaints')) {
+            const tx = db.transaction('pendingComplaints', 'readonly');
+            const store = tx.objectStore('pendingComplaints');
+            const countRequest = store.count();
+            
+            countRequest.onsuccess = () => {
+              const count = countRequest.result;
+              if (count > 0) {
+                document.getElementById('draftNotice').classList.add('show');
+                document.getElementById('draftCount').textContent = count;
+              }
+            };
+          }
+        };
+      } catch (error) {
+        console.log('Could not check drafts:', error);
+      }
+    }
+
+    // Listen for online/offline events
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
+    // Initial checks
+    updateConnectionStatus();
+    checkDrafts();
+  </script>
+</body>
+</html>

@@ -347,7 +347,13 @@ ucSchema.statics.calculateDistance = function(lon1, lat1, lon2, lat2) {
  * Instance method to update statistics
  */
 ucSchema.methods.updateStats = async function() {
-  const Complaint = mongoose.model('Complaint');
+  let Complaint;
+  try {
+    Complaint = mongoose.model('Complaint');
+  } catch {
+    // Complaint model not registered (seed scripts) - skip stats
+    return this;
+  }
 
   const [statusStats, resolutionStats, feedbackStats] = await Promise.all([
     // Status distribution

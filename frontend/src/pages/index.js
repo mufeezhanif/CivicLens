@@ -7,7 +7,7 @@ export { default as PrivacyPolicyPage } from './PrivacyPolicyPage';
 export { default as TermsOfServicePage } from './TermsOfServicePage';
 
 // Auth Pages
-export { CitizenLogin, CitizenRegister, OfficialLogin, AdminLogin } from './auth';
+export { CitizenLogin, CitizenRegister, OfficialLogin, AdminLogin, CitizenForgotPassword, OfficialForgotPassword } from './auth';
 
 // Dashboard Pages
 export { default as AdminDashboard } from './admin/AdminDashboard';

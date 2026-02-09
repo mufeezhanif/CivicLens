@@ -1,9 +1,10 @@
 /**
  * useTerritories Hook
  * Fetches and manages territory boundary data (UC/Town)
+ * OPTIMIZED: Deferred loading to improve map initial render time
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { territoriesApi } from '../../../services/api';
 
 const useTerritories = (options = {}) => {
@@ -11,16 +12,19 @@ const useTerritories = (options = {}) => {
   const [townBoundaries, setTownBoundaries] = useState(null);
   const [ucList, setUCList] = useState([]);
   const [townList, setTownList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Start as false to not block map render
   const [error, setError] = useState(null);
   const [selectedUC, setSelectedUC] = useState(null);
   const [selectedTown, setSelectedTown] = useState(null);
+  const [dataFetched, setDataFetched] = useState(false);
+  const fetchTimeoutRef = useRef(null);
 
   const {
     city = 'Karachi',
     autoFetch = true,
     fetchUC = true,
     fetchTown = true,
+    deferMs = 1000, // Defer API calls by 1 second to let map render first
   } = options;
 
   /**
@@ -31,16 +35,43 @@ const useTerritories = (options = {}) => {
       const response = await territoriesApi.getUCBoundaries(city);
       const territories = response.territories || response.data || [];
       
-      // Convert to GeoJSON FeatureCollection
+      // Convert to GeoJSON FeatureCollection including all properties
       const geojson = {
         type: 'FeatureCollection',
         features: territories.map(t => ({
           type: 'Feature',
           properties: {
+            // IDs
             id: t._id,
             uc_id: t.uc_id,
+            town_id: t.town_id,
+            city_id: t.city_id,
+            
+            // Names
             uc_name: t.uc_name,
             town: t.town,
+            city: t.city,
+            code: t.code,
+            
+            // Demographics
+            population: t.population,
+            area: t.area,
+            
+            // Location
+            center: t.center,
+            
+            // Statistics
+            stats: t.stats || {
+              totalComplaints: 0,
+              pendingComplaints: 0,
+              inProgressComplaints: 0,
+              resolvedComplaints: 0,
+              avgResolutionTime: 0,
+              slaComplianceRate: 100,
+              avgFeedbackRating: 0,
+            },
+            
+            // Meta
             level: 'UC',
           },
           geometry: t.geometry,
@@ -73,15 +104,43 @@ const useTerritories = (options = {}) => {
       const response = await territoriesApi.getTownBoundaries(city);
       const territories = response.territories || response.data || [];
       
-      // Convert to GeoJSON FeatureCollection
+      // Convert to GeoJSON FeatureCollection including all properties
       const geojson = {
         type: 'FeatureCollection',
         features: territories.map(t => ({
           type: 'Feature',
           properties: {
+            // IDs
             id: t._id,
-            town_id: t.town_id,
+            town_id: t.town_id || t._id,
+            city_id: t.city_id,
+            
+            // Names
             town_name: t.town_name || t.town,
+            town: t.town_name || t.town,
+            city: t.city,
+            code: t.code,
+            
+            // Demographics
+            population: t.population,
+            
+            // Location
+            center: t.center,
+            
+            // District info
+            district: t.district || null,
+            districtColor: t.districtColor || null,
+            
+            // Statistics
+            stats: t.stats || {
+              totalUCs: 0,
+              totalComplaints: 0,
+              resolvedComplaints: 0,
+              avgResolutionTime: 0,
+              slaComplianceRate: 100,
+            },
+            
+            // Meta
             level: 'Town',
           },
           geometry: t.geometry,
@@ -208,12 +267,22 @@ const useTerritories = (options = {}) => {
     return null;
   }, [selectedUC, selectedTown, ucBoundaries, townBoundaries, getUCById, getTownByName]);
 
-  // Auto-fetch on mount
+  // Auto-fetch on mount with deferred loading
   useEffect(() => {
-    if (autoFetch) {
-      fetchAllBoundaries();
+    if (autoFetch && !dataFetched) {
+      // Defer boundary loading to let map render first
+      fetchTimeoutRef.current = setTimeout(() => {
+        fetchAllBoundaries();
+        setDataFetched(true);
+      }, deferMs);
     }
-  }, [autoFetch, fetchAllBoundaries]);
+    
+    return () => {
+      if (fetchTimeoutRef.current) {
+        clearTimeout(fetchTimeoutRef.current);
+      }
+    };
+  }, [autoFetch, fetchAllBoundaries, deferMs, dataFetched]);
 
   return {
     ucBoundaries,

@@ -88,7 +88,7 @@ const AboutPage = () => {
       <main>
         {/* Hero Section */}
         <section className="py-16 md:py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5"></div>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
@@ -136,7 +136,7 @@ const AboutPage = () => {
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {values.map((value, i) => (
-                  <div key={i} className="flex items-start gap-4 bg-gradient-to-r from-background to-white rounded-xl border border-foreground/10 p-5 hover:shadow-lg transition-all">
+                  <div key={i} className="flex items-start gap-4 bg-linear-to-r from-background to-white rounded-xl border border-foreground/10 p-5 hover:shadow-lg transition-all">
                     <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
                       <value.icon />
                     </div>
@@ -179,7 +179,7 @@ const AboutPage = () => {
         </section>
 
         {/* Approach Section */}
-        <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <section className="py-16 bg-linear-to-br from-primary/5 to-secondary/5">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-3xl border border-foreground/10 p-8 md:p-12 shadow-sm">
               <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -205,19 +205,19 @@ const AboutPage = () => {
                   </div>
                 </div>
                 <div className="order-1 lg:order-2 grid grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-5 text-center">
+                  <div className="bg-linear-to-br from-primary/10 to-primary/5 rounded-2xl p-5 text-center">
                     <p className="text-2xl font-bold text-primary mb-1">AI</p>
                     <p className="text-xs text-foreground/60">Auto Categorization</p>
                   </div>
-                  <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-2xl p-5 text-center">
+                  <div className="bg-linear-to-br from-secondary/10 to-secondary/5 rounded-2xl p-5 text-center">
                     <p className="text-2xl font-bold text-secondary mb-1">GIS</p>
                     <p className="text-xs text-foreground/60">Geospatial Analysis</p>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl p-5 text-center">
+                  <div className="bg-linear-to-br from-blue-100 to-blue-50 rounded-2xl p-5 text-center">
                     <p className="text-2xl font-bold text-blue-600 mb-1">24/7</p>
                     <p className="text-xs text-foreground/60">WhatsApp Support</p>
                   </div>
-                  <div className="bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl p-5 text-center">
+                  <div className="bg-linear-to-br from-purple-100 to-purple-50 rounded-2xl p-5 text-center">
                     <p className="text-2xl font-bold text-purple-600 mb-1">Real</p>
                     <p className="text-xs text-foreground/60">Time Updates</p>
                   </div>
@@ -230,7 +230,7 @@ const AboutPage = () => {
         {/* CTA Section */}
         <section className="py-16 md:py-24">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-br from-primary to-primary/80 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
+            <div className="bg-linear-to-br from-primary to-primary/80 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
               <div className="relative">

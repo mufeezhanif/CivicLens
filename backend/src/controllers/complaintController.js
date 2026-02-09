@@ -93,22 +93,12 @@ const createComplaint = asyncHandler(async (req, res) => {
   const result = await complaintService.createComplaint(data, req.files);
 
   // Audit log for complaint creation
-  await AuditLog.logAction({
-    action: 'complaint_created',
-    actor: req.user?._id || null,
-    target: {
-      type: 'complaint',
-      id: result.complaint._id,
-    },
-    details: {
-      complaintId: result.complaint.complaintId,
-      category: result.complaint.category.primary,
+  await AuditLog.logComplaint('COMPLAINT_CREATE', result.complaint, req.user, req, {
+    context: {
       ucId: ucAssignment?.ucId?.toString(),
       ucNumber: result.complaint.ucNumber,
       source: data.source,
     },
-    ipAddress: req.ip,
-    userAgent: req.get('User-Agent'),
   });
 
   res.status(HTTP_STATUS.CREATED).json({
@@ -268,26 +258,23 @@ const updateComplaintStatus = asyncHandler(async (req, res) => {
     status,
     remarks,
     updatedBy: user._id,
+    updatedByRole: user.role,
     rating: req.body.rating,
     feedback: req.body.feedback,
   });
 
   // Audit log
-  await AuditLog.logAction({
-    action: 'complaint_status_updated',
-    actor: user._id,
-    target: {
-      type: 'complaint',
-      id: complaint._id,
+  await AuditLog.logComplaint('COMPLAINT_STATUS_UPDATE', complaint, user, req, {
+    statusTransition: {
+      from: complaint.status.current,
+      to: status,
     },
-    details: {
+    context: {
       complaintId: complaint.complaintId,
       previousStatus: complaint.status.current,
       newStatus: status,
       remarks,
     },
-    ipAddress: req.ip,
-    userAgent: req.get('User-Agent'),
   });
 
   res.status(HTTP_STATUS.OK).json({
@@ -310,25 +297,33 @@ const verifyComplaintAccess = async (user, complaint) => {
   
   // Website admin has access to all
   if (user.role === 'website_admin') return true;
+
+  // Helper to extract ObjectId string from a field that may be populated or raw
+  const toIdString = (field) => {
+    if (!field) return null;
+    // If populated (document with _id), extract _id
+    if (field._id) return field._id.toString();
+    return field.toString();
+  };
   
   // Mayor has access to their city
   if (user.role === 'mayor') {
-    return user.city?.toString() === complaint.cityId?.toString();
+    return toIdString(user.cityId) === toIdString(complaint.cityId);
   }
   
   // Town chairman has access to their town
   if (user.role === 'town_chairman') {
-    return user.town?.toString() === complaint.townId?.toString();
+    return toIdString(user.townId) === toIdString(complaint.townId);
   }
   
   // UC chairman has access to their UC
   if (user.role === 'uc_chairman') {
-    return user.uc?.toString() === complaint.ucId?.toString();
+    return toIdString(user.ucId) === toIdString(complaint.ucId);
   }
   
   // Citizens can only provide feedback on their own resolved complaints
   if (user.role === 'citizen') {
-    return user._id.toString() === complaint.citizenUser?.toString();
+    return user._id.toString() === toIdString(complaint.citizenUser);
   }
   
   return false;
@@ -499,20 +494,12 @@ const submitCitizenFeedback = asyncHandler(async (req, res) => {
   });
 
   // Audit log
-  await AuditLog.logAction({
-    action: 'citizen_feedback_submitted',
-    actor: req.user._id,
-    target: {
-      type: 'complaint',
-      id: complaint._id,
-    },
-    details: {
+  await AuditLog.logComplaint('CITIZEN_FEEDBACK', complaint, req.user, req, {
+    context: {
       complaintId: complaint.complaintId,
       rating,
       citizenResolved: resolved !== false,
     },
-    ipAddress: req.ip,
-    userAgent: req.get('User-Agent'),
   });
 
   res.status(HTTP_STATUS.OK).json({

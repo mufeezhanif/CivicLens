@@ -217,12 +217,6 @@ const updateStatusValidation = [
     .withMessage('Remarks cannot exceed 500 characters')
     .escape(),
   
-  body('updatedBy')
-    .notEmpty()
-    .withMessage('updatedBy is required')
-    .trim()
-    .escape(),
-  
   handleValidation,
 ];
 

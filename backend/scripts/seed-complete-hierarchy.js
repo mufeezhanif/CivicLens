@@ -12,7 +12,7 @@ const Town = require('../src/models/Town');
 const UC = require('../src/models/UC');
 
 // MongoDB connection
-const MONGODB_URI = 'mongodb+srv://k230061_db_user:22PWiSDVtuaweg15@cluster0.kva36pk.mongodb.net/?appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/civiclens';
 
 // Import geometry generation from generate_karachi_geo.js
 const { execSync } = require('child_process');

@@ -272,8 +272,8 @@ const CivicLensMap = ({
     setCurrentBounds(bounds);
   }, []);
 
-  // Loading state
-  const isLoading = complaintsLoading || territoriesLoading;
+  // Loading state - only show loading if actually fetching (not on initial render)
+  const isLoading = (complaintsLoading && !heatmapData?.length) || territoriesLoading;
 
   return (
     <div className={`civiclens-map-container ${className}`} style={style}>

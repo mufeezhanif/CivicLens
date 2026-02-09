@@ -1,0 +1,146 @@
+{
+  "name": "CivicLens - Karachi Grievance Portal",
+  "short_name": "CivicLens",
+  "description": "Report and track civic issues in Karachi. Submit complaints about roads, water, garbage, and electricity problems in your area.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["government", "utilities", "social"],
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Home page showing complaint form and map"
+    },
+    {
+      "src": "/screenshots/mobile-home.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile view of complaint submission"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Submit Complaint",
+      "short_name": "Submit",
+      "description": "File a new civic complaint",
+      "url": "/complaints/new",
+      "icons": [
+        {
+          "src": "/icons/shortcut-submit.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Complaints",
+      "short_name": "My Issues",
+      "description": "View your submitted complaints",
+      "url": "/complaints?filter=my",
+      "icons": [
+        {
+          "src": "/icons/shortcut-list.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "View Map",
+      "short_name": "Map",
+      "description": "See issues on the map",
+      "url": "/map",
+      "icons": [
+        {
+          "src": "/icons/shortcut-map.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/complaints/new",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "description",
+      "url": "url",
+      "files": [
+        {
+          "name": "images",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+civiclens",
+      "url": "/handle?url=%s"
+    }
+  ],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
+}

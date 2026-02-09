@@ -175,7 +175,7 @@ auditLogSchema.index({ result: 1, timestamp: -1 });
 /**
  * Pre-save middleware to set category based on action
  */
-auditLogSchema.pre('save', function(next) {
+auditLogSchema.pre('save', function() {
   if (!this.category) {
     if (this.action.startsWith('LOGIN') || this.action.startsWith('LOGOUT') || 
         this.action.includes('PASSWORD') || this.action.includes('ACCOUNT')) {
@@ -194,16 +194,15 @@ auditLogSchema.pre('save', function(next) {
       this.category = 'system';
     }
   }
-  next();
 });
 
 /**
  * Prevent updates and deletes - logs are immutable
  */
-auditLogSchema.pre(['updateOne', 'updateMany', 'findOneAndUpdate', 'findOneAndDelete', 'deleteOne', 'deleteMany'], function(next) {
+auditLogSchema.pre(['updateOne', 'updateMany', 'findOneAndUpdate', 'findOneAndDelete', 'deleteOne', 'deleteMany'], function() {
   const error = new Error('Audit logs are immutable and cannot be modified or deleted');
   error.code = 'AUDIT_LOG_IMMUTABLE';
-  next(error);
+  throw error;
 });
 
 /**
@@ -418,5 +417,8 @@ auditLogSchema.statics.getSummary = async function(options = {}) {
 };
 
 const AuditLog = mongoose.model('AuditLog', auditLogSchema);
+
+// Alias for backward compatibility
+AuditLog.logAction = AuditLog.log;
 
 module.exports = AuditLog;

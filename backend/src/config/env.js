@@ -25,9 +25,6 @@ const env = {
     apiKey: process.env.CLOUDINARY_API_KEY,
     apiSecret: process.env.CLOUDINARY_API_SECRET,
   },
-  
-  // Google Maps
-  googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
 
   // Email (SMTP)
   email: {
@@ -97,11 +94,6 @@ const validateEnv = () => {
   // Warn about Cloudinary if trying to use image features
   if (!env.cloudinary.cloudName || !env.cloudinary.apiKey || !env.cloudinary.apiSecret) {
     console.warn('Warning: Cloudinary credentials not configured. Image uploads will be stored locally.');
-  }
-  
-  // Warn about Google Maps API key
-  if (!env.googleMapsApiKey) {
-    console.warn('Warning: Google Maps API key not configured. Reverse geocoding will be disabled.');
   }
 
   // Warn about SMTP email config

@@ -253,8 +253,8 @@ const TerritoryPage = () => {
                     <Badge variant={getStatusVariant(selectedComplaint.status)}>
                       {selectedComplaint.status?.replace('_', ' ')}
                     </Badge>
-                    <Badge variant={selectedComplaint.severity === 'critical' || selectedComplaint.severity === 'high' ? 'danger' : 'warning'}>
-                      {selectedComplaint.severity}
+                    <Badge variant={(selectedComplaint.severity?.priority || selectedComplaint.severity) === 'critical' || (selectedComplaint.severity?.priority || selectedComplaint.severity) === 'high' ? 'danger' : 'warning'}>
+                      {selectedComplaint.severity?.priority || selectedComplaint.severity || 'medium'}
                     </Badge>
                   </div>
 

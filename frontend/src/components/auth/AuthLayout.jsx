@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AuthLayout = ({ children, title, subtitle }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10 flex flex-col">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-secondary/10 flex flex-col">
       {/* Background decorations */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-secondary/20 rounded-full blur-3xl" />

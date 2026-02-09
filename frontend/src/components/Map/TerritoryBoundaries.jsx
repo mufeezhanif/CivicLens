@@ -1,11 +1,27 @@
 /**
  * TerritoryBoundaries Component
- * Renders UC and Town boundary polygons from GeoJSON
+ * Renders UC and Town boundary polygons from GeoJSON with detailed tooltips
  */
 
 import { useState, useCallback } from 'react';
 import { GeoJSON, Tooltip, useMap } from 'react-leaflet';
 import { getUCStyle, getTownStyle } from '../../utils/mapHelpers';
+
+/**
+ * Format number with commas
+ */
+const formatNumber = (num) => {
+  if (!num && num !== 0) return 'N/A';
+  return num.toLocaleString('en-US');
+};
+
+/**
+ * Format percentage
+ */
+const formatPercentage = (num) => {
+  if (!num && num !== 0) return 'N/A';
+  return `${num.toFixed(1)}%`;
+};
 
 /**
  * UC Boundaries Layer
@@ -29,6 +45,58 @@ export const UCBoundaries = ({
 
   // Event handlers for each feature
   const onEachFeature = useCallback((feature, layer) => {
+    const props = feature.properties;
+    const stats = props.stats || {};
+    
+    // Create detailed tooltip content
+    const tooltipContent = `
+      <div class="uc-tooltip">
+        <div class="tooltip-header">
+          <strong>${props.uc_name || 'Unknown UC'}</strong>
+        </div>
+        <div class="tooltip-body">
+          <div class="tooltip-row">
+            <span class="tooltip-label">Code:</span>
+            <span class="tooltip-value">${props.code || 'N/A'}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Town:</span>
+            <span class="tooltip-value">${props.town || 'N/A'}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Population:</span>
+            <span class="tooltip-value">${formatNumber(props.population)}</span>
+          </div>
+          <div class="tooltip-divider"></div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Total Complaints:</span>
+            <span class="tooltip-value">${formatNumber(stats.totalComplaints)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Pending:</span>
+            <span class="tooltip-value pending">${formatNumber(stats.pendingComplaints)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Resolved:</span>
+            <span class="tooltip-value resolved">${formatNumber(stats.resolvedComplaints)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">SLA Compliance:</span>
+            <span class="tooltip-value">${formatPercentage(stats.slaComplianceRate)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Bind tooltip with custom content
+    layer.bindTooltip(tooltipContent, {
+      permanent: false,
+      direction: 'auto',
+      className: 'territory-tooltip uc-territory-tooltip',
+      sticky: true,
+      opacity: 0.95,
+    });
+    
     // Mouse events
     layer.on({
       mouseover: (e) => {
@@ -68,9 +136,7 @@ export const UCBoundaries = ({
       data={data}
       style={styleFunction}
       onEachFeature={onEachFeature}
-    >
-      {/* Tooltips are handled via onEachFeature for better control */}
-    </GeoJSON>
+    />
   );
 };
 
@@ -97,13 +163,61 @@ export const TownBoundaries = ({
 
   // Event handlers for each feature
   const onEachFeature = useCallback((feature, layer) => {
-    const townName = feature.properties.town_name || feature.properties.town;
+    const props = feature.properties;
+    const stats = props.stats || {};
+    const townName = props.town_name || props.town;
     
-    // Add tooltip
-    layer.bindTooltip(townName, {
+    // Create detailed tooltip content
+    const tooltipContent = `
+      <div class="town-tooltip">
+        <div class="tooltip-header">
+          <strong>${townName || 'Unknown Town'}</strong>
+        </div>
+        <div class="tooltip-body">
+          <div class="tooltip-row">
+            <span class="tooltip-label">Code:</span>
+            <span class="tooltip-value">${props.code || 'N/A'}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">District:</span>
+            <span class="tooltip-value">${props.district || 'N/A'}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Population:</span>
+            <span class="tooltip-value">${formatNumber(props.population)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Total UCs:</span>
+            <span class="tooltip-value">${formatNumber(stats.totalUCs)}</span>
+          </div>
+          <div class="tooltip-divider"></div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Total Complaints:</span>
+            <span class="tooltip-value">${formatNumber(stats.totalComplaints)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Resolved:</span>
+            <span class="tooltip-value resolved">${formatNumber(stats.resolvedComplaints)}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Avg. Resolution:</span>
+            <span class="tooltip-value">${stats.avgResolutionTime ? Math.round(stats.avgResolutionTime / 60) + ' hrs' : 'N/A'}</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">SLA Compliance:</span>
+            <span class="tooltip-value">${formatPercentage(stats.slaComplianceRate)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Bind tooltip with detailed content
+    layer.bindTooltip(tooltipContent, {
       permanent: false,
-      direction: 'center',
-      className: 'town-tooltip',
+      direction: 'auto',
+      className: 'territory-tooltip town-territory-tooltip',
+      sticky: true,
+      opacity: 0.95,
     });
 
     // Mouse events

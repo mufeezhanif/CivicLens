@@ -110,7 +110,7 @@ const TargetUsers = () => {
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Who Uses{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
               CivicLens
             </span>
           </h2>

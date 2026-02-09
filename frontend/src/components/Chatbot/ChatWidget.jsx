@@ -72,7 +72,7 @@ const ChatWidget = () => {
           focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800
           ${isOpen 
             ? 'bg-gray-600 hover:bg-gray-700 rotate-0' 
-            : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
+            : 'bg-linear-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
           }
         `}
         aria-label={isOpen ? 'Close chat' : 'Open chat'}

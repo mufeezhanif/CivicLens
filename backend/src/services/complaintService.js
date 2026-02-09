@@ -290,11 +290,11 @@ class ComplaintService {
   /**
    * Update complaint status
    */
-  async updateStatus(id, { status, remarks, updatedBy, rating, feedback, citizenResolved }) {
+  async updateStatus(id, { status, remarks, updatedBy, updatedByRole, rating, feedback, citizenResolved }) {
     const complaint = await this.getComplaintById(id);
     
-    // Use the model's updateStatus method
-    await complaint.updateStatus(status, updatedBy, remarks);
+    // Use the model's updateStatus method (pass role for status history)
+    await complaint.updateStatus(status, updatedBy, updatedByRole || 'system', remarks);
 
     // Handle citizen feedback for resolved complaints
     if (status === 'citizen_feedback' && rating) {
@@ -402,6 +402,8 @@ class ComplaintService {
 
     const matchStage = {
       createdAt: { $gte: start },
+      // Only show active (unresolved) complaints on the heatmap
+      'status.current': { $nin: ['resolved', 'closed', 'citizen_feedback'] },
     };
 
     if (category) {
@@ -454,6 +456,8 @@ class ComplaintService {
 
     const matchStage = {
       createdAt: { $gte: start },
+      // Only show active (unresolved) complaints on the global heatmap
+      'status.current': { $nin: ['resolved', 'closed', 'citizen_feedback'] },
     };
 
     if (category) {

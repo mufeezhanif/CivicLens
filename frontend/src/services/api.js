@@ -979,4 +979,174 @@ export const healthApi = {
   },
 };
 
+/**
+ * Chat API endpoints
+ * Real-time messaging for UC-Citizen and hierarchy communications
+ */
+export const chatApi = {
+  /**
+   * Get user's conversations
+   * @param {Object} options - Query options (type, status, limit)
+   * @returns {Promise} - Array of conversations
+   */
+  getConversations: async (options = {}) => {
+    const params = new URLSearchParams();
+    if (options.type) params.append('type', options.type);
+    if (options.status) params.append('status', options.status);
+    if (options.limit) params.append('limit', options.limit);
+    
+    const response = await api.get(`/chat/conversations?${params.toString()}`);
+    return response.data;
+  },
+
+  /**
+   * Get specific conversation
+   * @param {string} conversationId - Conversation ID
+   * @returns {Promise} - Conversation details
+   */
+  getConversation: async (conversationId) => {
+    const response = await api.get(`/chat/conversations/${conversationId}`);
+    return response.data;
+  },
+
+  /**
+   * Start complaint discussion (UC Chairman only)
+   * @param {string} complaintId - Complaint ID
+   * @returns {Promise} - Created/existing conversation
+   */
+  startComplaintChat: async (complaintId) => {
+    const response = await api.post('/chat/conversations/complaint', { complaintId });
+    return response.data;
+  },
+
+  /**
+   * Start hierarchy chat
+   * @param {string} targetUserId - Target user ID
+   * @param {string} subject - Conversation subject
+   * @returns {Promise} - Created/existing conversation
+   */
+  startHierarchyChat: async (targetUserId, subject = '') => {
+    const response = await api.post('/chat/conversations/hierarchy', { 
+      targetUserId, 
+      subject 
+    });
+    return response.data;
+  },
+
+  /**
+   * Close a conversation
+   * @param {string} conversationId - Conversation ID
+   * @param {string} reason - Reason for closing
+   * @returns {Promise} - Closed conversation
+   */
+  closeConversation: async (conversationId, reason = '') => {
+    const response = await api.post(`/chat/conversations/${conversationId}/close`, { reason });
+    return response.data;
+  },
+
+  /**
+   * Get messages for a conversation
+   * @param {string} conversationId - Conversation ID
+   * @param {Object} options - Pagination options (before, after, limit)
+   * @returns {Promise} - Array of messages
+   */
+  getMessages: async (conversationId, options = {}) => {
+    const params = new URLSearchParams();
+    if (options.before) params.append('before', options.before);
+    if (options.after) params.append('after', options.after);
+    if (options.limit) params.append('limit', options.limit);
+    
+    const response = await api.get(
+      `/chat/conversations/${conversationId}/messages?${params.toString()}`
+    );
+    return response.data;
+  },
+
+  /**
+   * Send a message
+   * @param {string} conversationId - Conversation ID
+   * @param {Object} messageData - Message data (content, type, attachments, replyTo, priority)
+   * @returns {Promise} - Sent message
+   */
+  sendMessage: async (conversationId, messageData) => {
+    const response = await api.post(
+      `/chat/conversations/${conversationId}/messages`,
+      messageData
+    );
+    return response.data;
+  },
+
+  /**
+   * Edit a message
+   * @param {string} messageId - Message ID
+   * @param {string} content - New content
+   * @returns {Promise} - Updated message
+   */
+  editMessage: async (messageId, content) => {
+    const response = await api.put(`/chat/messages/${messageId}`, { content });
+    return response.data;
+  },
+
+  /**
+   * Delete a message
+   * @param {string} messageId - Message ID
+   * @returns {Promise} - Success response
+   */
+  deleteMessage: async (messageId) => {
+    const response = await api.delete(`/chat/messages/${messageId}`);
+    return response.data;
+  },
+
+  /**
+   * Mark conversation as read
+   * @param {string} conversationId - Conversation ID
+   * @param {string} lastMessageId - Last read message ID (optional)
+   * @returns {Promise} - Success response
+   */
+  markAsRead: async (conversationId, lastMessageId = null) => {
+    const response = await api.put(`/chat/conversations/${conversationId}/read`, {
+      lastMessageId
+    });
+    return response.data;
+  },
+
+  /**
+   * Get total unread count
+   * @returns {Promise} - Unread count
+   */
+  getUnreadCount: async () => {
+    const response = await api.get('/chat/unread-count');
+    return response.data;
+  },
+
+  /**
+   * Get available chat targets for hierarchy chats
+   * @returns {Promise} - Array of available targets
+   */
+  getChatTargets: async () => {
+    const response = await api.get('/chat/targets');
+    return response.data;
+  },
+
+  /**
+   * Check if user can chat about a complaint
+   * @param {string} complaintId - Complaint ID
+   * @returns {Promise} - Access info
+   */
+  checkComplaintAccess: async (complaintId) => {
+    const response = await api.get(`/chat/complaint/${complaintId}/access`);
+    return response.data;
+  },
+
+  /**
+   * Get conversation for a complaint (if exists)
+   * @param {string} complaintId - Complaint ID
+   * @returns {Promise} - Conversation or null
+   */
+  getComplaintConversation: async (complaintId) => {
+    const response = await api.get(`/chat/complaint/${complaintId}/conversation`);
+    return response.data;
+  },
+};
+
 export default api;

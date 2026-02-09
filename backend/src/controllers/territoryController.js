@@ -78,7 +78,7 @@ exports.getTerritories = asyncHandler(async (req, res, next) => {
 
     const towns = await Town.find(query)
       .populate('city', 'name code')
-      .select('name code boundary center city population stats');
+      .select('name code boundary center city population stats metadata');
 
     // Format for GeoJSON consumption
     const territories = towns.map(t => ({
@@ -93,6 +93,8 @@ exports.getTerritories = asyncHandler(async (req, res, next) => {
       center: t.center,
       geometry: t.boundary,
       stats: t.stats,
+      district: t.metadata?.district || null,
+      districtColor: t.metadata?.districtColor || null,
     }));
 
     return res.status(200).json({
@@ -108,7 +110,7 @@ exports.getTerritories = asyncHandler(async (req, res, next) => {
   if (cityDoc) query.city = cityDoc._id;
 
   const [towns, ucs] = await Promise.all([
-    Town.find(query).populate('city', 'name code').select('name code boundary center city population stats'),
+    Town.find(query).populate('city', 'name code').select('name code boundary center city population stats metadata'),
     UC.find(query).populate('town', 'name code').populate('city', 'name code').select('name code ucNumber boundary center town city population area stats'),
   ]);
 
@@ -120,6 +122,8 @@ exports.getTerritories = asyncHandler(async (req, res, next) => {
       code: t.code,
       city: t.city?.name || '',
       geometry: t.boundary,
+      district: t.metadata?.district || null,
+      districtColor: t.metadata?.districtColor || null,
     })),
     ...ucs.map(uc => ({
       _id: uc._id,

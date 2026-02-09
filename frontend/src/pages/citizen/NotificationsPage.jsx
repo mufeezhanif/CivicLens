@@ -162,7 +162,7 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => (
           </p>
         </div>
         {!notification.read && (
-          <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-2" />
+          <span className="w-2 h-2 bg-primary rounded-full shrink-0 mt-2" />
         )}
       </div>
       <div className="flex items-center gap-4 mt-2">

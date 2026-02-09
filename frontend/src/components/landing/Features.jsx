@@ -5,9 +5,9 @@ const FeatureCard = ({ icon, title, description, delay }) => (
     className="group relative bg-white rounded-2xl p-6 shadow-lg shadow-primary/5 border border-primary/10 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1"
     style={{ animationDelay: delay }}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-secondary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     <div className="relative">
-      <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+      <div className="w-14 h-14 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
       <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
@@ -88,7 +88,7 @@ const Features = () => {
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             What{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
               CivicLens Offers
             </span>
           </h2>

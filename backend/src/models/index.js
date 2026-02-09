@@ -8,6 +8,8 @@ const Town = require('./Town');
 const UC = require('./UC');
 const Invitation = require('./Invitation');
 const AuditLog = require('./AuditLog');
+const Conversation = require('./Conversation');
+const Message = require('./Message');
 
 module.exports = {
   Complaint,
@@ -20,4 +22,6 @@ module.exports = {
   UC,
   Invitation,
   AuditLog,
+  Conversation,
+  Message,
 };

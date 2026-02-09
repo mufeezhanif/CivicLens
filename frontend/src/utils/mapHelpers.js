@@ -64,24 +64,21 @@ export const CATEGORY_ICONS = {
  * Status colors
  */
 export const STATUS_COLORS = {
-  'reported': '#EF4444',     // Red
-  'pending': '#F59E0B',      // Amber
+  'submitted': '#EF4444',    // Red
+  'acknowledged': '#F59E0B', // Amber 
   'in_progress': '#3B82F6',  // Blue
-  'in-progress': '#3B82F6',  // Blue (alternate)
   'resolved': '#10B981',     // Green
   'closed': '#6B7280',       // Gray
+  'rejected': '#991B1B',     // Dark Red
 };
 
-/**
- * Status labels
- */
 export const STATUS_LABELS = {
-  'reported': 'Reported',
-  'pending': 'Pending',
+  'submitted': 'Submitted',
+  'acknowledged': 'Acknowledged',
   'in_progress': 'In Progress',
-  'in-progress': 'In Progress',
   'resolved': 'Resolved',
   'closed': 'Closed',
+  'rejected': 'Rejected',
 };
 
 /**
@@ -215,9 +212,9 @@ export const DISTRICT_COLORS = {
  * @param {boolean} isSelected - Whether town is selected
  */
 export const getTownStyle = (feature, isHovered = false, isSelected = false) => {
-  // Get district color from feature properties
-  const district = feature?.properties?.metadata?.district || feature?.properties?.district;
-  const districtColor = DISTRICT_COLORS[district] || DISTRICT_COLORS.default;
+  // Get district color from feature properties (set by useTerritories hook)
+  const district = feature?.properties?.district;
+  const districtColor = feature?.properties?.districtColor || DISTRICT_COLORS[district] || DISTRICT_COLORS.default;
   
   return {
     // Bold borders - prominent weight for clear separation

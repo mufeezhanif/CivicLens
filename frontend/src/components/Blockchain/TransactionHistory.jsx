@@ -115,7 +115,7 @@ const TransactionHistory = ({
       <div className="relative min-h-screen flex items-center justify-center p-4">
         <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-5 text-white">
+          <div className="bg-linear-to-r from-indigo-600 to-purple-600 px-6 py-5 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/20 rounded-lg">
@@ -165,7 +165,7 @@ const TransactionHistory = ({
               <div className="space-y-4">
                 {/* Current Status Summary */}
                 {complaintData && (
-                  <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-4 mb-6">
+                  <div className="bg-linear-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-4 mb-6">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-500">Current On-Chain Status</p>

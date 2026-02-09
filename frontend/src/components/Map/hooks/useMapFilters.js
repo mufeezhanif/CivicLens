@@ -41,7 +41,7 @@ const useMapFilters = (initialFilters = {}) => {
    * Available statuses
    */
   const availableStatuses = useMemo(() => {
-    return ['reported', 'pending', 'in_progress', 'resolved', 'closed'];
+    return ['submitted', 'acknowledged', 'in_progress', 'resolved', 'closed', 'rejected'];
   }, []);
 
   /**

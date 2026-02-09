@@ -8,7 +8,7 @@ const Step = ({ number, title, description, icon, isLast }) => (
     )}
     
     {/* Step number */}
-    <div className="relative z-10 flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/25">
+    <div className="relative z-10 shrink-0 w-12 h-12 bg-linear-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/25">
       {number}
     </div>
     
@@ -16,7 +16,7 @@ const Step = ({ number, title, description, icon, isLast }) => (
     <div className="flex-1 pb-12">
       <div className="bg-white rounded-2xl p-6 shadow-lg shadow-primary/5 border border-primary/10 hover:shadow-xl transition-shadow duration-300">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-background rounded-xl flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 bg-background rounded-xl flex items-center justify-center shrink-0">
             {icon}
           </div>
           <div>
@@ -82,7 +82,7 @@ const HowItWorks = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Illustration */}
           <div className="relative order-2 lg:order-1">
-            <div className="relative bg-gradient-to-br from-primary/5 to-secondary/5 rounded-3xl p-8">
+            <div className="relative bg-linear-to-br from-primary/5 to-secondary/5 rounded-3xl p-8">
               {/* Workflow illustration */}
               <svg viewBox="0 0 400 400" className="w-full h-auto">
                 {/* Background circles */}
@@ -156,7 +156,7 @@ const HowItWorks = () => {
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               The{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
                 Issue Resolution Workflow
               </span>
             </h2>

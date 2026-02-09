@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts';
 import { complaintsApi, analyticsApi, invitationApi, hierarchyApi } from '../../services/api';
 import { toast } from 'react-hot-toast';
 
@@ -161,17 +161,12 @@ const TownshipDashboard = () => {
     }
   };
 
-  const getRatingStyles = (rating) => {
-    switch (rating.toLowerCase()) {
+  const _getRatingStyles = (_rating) => {
+    switch (_rating.toLowerCase()) {
       case 'satisfied': return { bg: 'bg-emerald-50', text: 'text-emerald-700', emoji: '😊' };
       case 'neutral': return { bg: 'bg-amber-50', text: 'text-amber-700', emoji: '😐' };
       default: return { bg: 'bg-red-50', text: 'text-red-700', emoji: '😞' };
     }
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/official/login');
   };
 
   return (
@@ -265,7 +260,7 @@ const TownshipDashboard = () => {
       {/* Browse Issues */}
       {activeOperation === 'browse' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
+          <div className="bg-linear-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-xl bg-primary/10 text-primary"><Icons.Browse /></div>
@@ -279,7 +274,7 @@ const TownshipDashboard = () => {
           </div>
           <div className="p-4 space-y-3">
             {issues.map((issue) => (
-              <div key={issue.id} className="rounded-xl border border-foreground/10 bg-gradient-to-r from-background to-white p-4 hover:shadow-md transition-all duration-200 group">
+              <div key={issue.id} className="rounded-xl border border-foreground/10 bg-linear-to-r from-background to-white p-4 hover:shadow-md transition-all duration-200 group">
                 <div className="flex flex-col md:flex-row md:items-center gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -307,7 +302,7 @@ const TownshipDashboard = () => {
       {/* Register UC Chairman */}
       {activeOperation === 'register-uc' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-blue-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
+          <div className="bg-linear-to-r from-blue-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-blue-100 text-blue-600"><Icons.UserPlus /></div>
               <div>
@@ -354,7 +349,7 @@ const TownshipDashboard = () => {
       {/* Citizen Feedback */}
       {activeOperation === 'feedback' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-secondary/5 to-primary/5 px-6 py-5 border-b border-foreground/10">
+          <div className="bg-linear-to-r from-secondary/5 to-primary/5 px-6 py-5 border-b border-foreground/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-xl bg-secondary/10 text-secondary"><Icons.Feedback /></div>

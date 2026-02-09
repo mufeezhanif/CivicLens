@@ -1,6 +1,5 @@
 /**
  * Authentication & Authorization Middleware
- * Protects routes and enforces role-based access control
  */
 
 const authService = require('../services/authService');
@@ -238,9 +237,7 @@ const authRateLimiter = (() => {
  */
 const checkOwnership = (resourceField = 'userId') => {
   return (req, res, next) => {
-    // Admins can access everything (new and legacy roles)
-    const adminRoles = ['website_admin', 'admin', 'superadmin'];
-    if (adminRoles.includes(req.user.role)) {
+    if (req.user.role === 'website_admin') {
       return next();
     }
     
@@ -264,48 +261,8 @@ const checkOwnership = (resourceField = 'userId') => {
 };
 
 /**
- * Department-based access control
- * Restricts officers to their assigned department
- * @deprecated Use hierarchyAccess instead for new code
- */
-const departmentAccess = (req, res, next) => {
-  // Admins can access everything
-  const adminRoles = ['website_admin', 'admin', 'superadmin'];
-  if (adminRoles.includes(req.user.role)) {
-    return next();
-  }
-  
-  // Officers and supervisors can only see their department
-  if (['officer', 'supervisor'].includes(req.user.role)) {
-    if (!req.user.department) {
-      return next(
-        new AppError(
-          'No department assigned. Please contact administrator.',
-          HTTP_STATUS.FORBIDDEN
-        )
-      );
-    }
-    
-    // Add department filter to query
-    req.departmentFilter = { department: req.user.department };
-  }
-  
-  next();
-};
-
-/**
  * Hierarchy-based access control (UC → Town → City)
- * Restricts chairmen and mayors to their assigned geographic areas
- * 
- * Usage:
- *   router.get('/complaints', protect, hierarchyAccess, getComplaints);
- * 
- * This middleware sets req.hierarchyFilter based on user role:
- *   - website_admin: no filter (sees all)
- *   - mayor: cityId filter
- *   - town_chairman: townId filter  
- *   - uc_chairman: ucId filter
- *   - citizen: userId filter (own complaints only)
+ * Sets req.hierarchyFilter based on user role
  */
 const hierarchyAccess = (req, res, next) => {
   // If no user (public/optionalAuth route), allow access to all public data
@@ -353,14 +310,8 @@ const hierarchyAccess = (req, res, next) => {
     return next();
   }
 
-  // Citizens can view all public complaints (their own complaints are at /my endpoint)
+  // Citizens can view all public complaints
   if (req.user.role === 'citizen') {
-    req.hierarchyFilter = {};
-    return next();
-  }
-
-  // Legacy roles fallback
-  if (['officer', 'supervisor', 'admin', 'superadmin'].includes(req.user.role)) {
     req.hierarchyFilter = {};
     return next();
   }
@@ -449,19 +400,12 @@ const auditAuth = (action) => {
   };
 };
 
-// Role hierarchy for permission checks
-// New hierarchy: citizen < uc_chairman < town_chairman < mayor < website_admin
 const ROLE_HIERARCHY = {
   citizen: 0,
   uc_chairman: 1,
   town_chairman: 2,
   mayor: 3,
   website_admin: 4,
-  // Legacy roles (for backward compatibility during migration)
-  officer: 1,
-  supervisor: 2,
-  admin: 4,
-  superadmin: 4,
 };
 
 /**
@@ -502,7 +446,6 @@ module.exports = {
   requireVerified,
   authRateLimiter,
   checkOwnership,
-  departmentAccess,
   hierarchyAccess,
   canAccessUC,
   auditAuth,

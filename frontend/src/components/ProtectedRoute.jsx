@@ -62,19 +62,13 @@ const ProtectedRoute = ({
  * Get the appropriate dashboard path for a given role
  */
 const getDashboardForRole = (role) => {
-  switch (role) {
-    case ROLES.ADMIN:
-      return '/admin/dashboard';
-    case ROLES.MAYOR:
-      return '/mayor/dashboard';
-    case ROLES.TOWNSHIP_OFFICER:
-      return '/township/dashboard';
-    case ROLES.UC_CHAIRMAN:
-      return '/uc/dashboard';
-    case ROLES.CITIZEN:
-    default:
-      return '/citizen/dashboard';
-  }
+  const paths = {
+    [ROLES.ADMIN]: '/admin/dashboard',
+    [ROLES.MAYOR]: '/mayor/dashboard',
+    [ROLES.TOWNSHIP_OFFICER]: '/official/dashboard',
+    [ROLES.UC_CHAIRMAN]: '/official/dashboard',
+  };
+  return paths[role] || '/citizen/dashboard';
 };
 
 /**

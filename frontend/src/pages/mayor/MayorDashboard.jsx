@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts';
 import { complaintsApi, analyticsApi, invitationApi, hierarchyApi } from '../../services/api';
 import { toast } from 'react-hot-toast';
 
@@ -232,7 +232,7 @@ const MayorDashboard = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-100 to-amber-50 text-amber-700 text-xs font-semibold flex items-center gap-1.5"><Icons.Crown />Mayor</span>
+              <span className="px-2.5 py-1 rounded-full bg-linear-to-r from-amber-100 to-amber-50 text-amber-700 text-xs font-semibold flex items-center gap-1.5"><Icons.Crown />Mayor</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground">City Operations Center</h1>
             <p className="text-foreground/60 mt-1">Citywide oversight, leadership management, and citizen satisfaction</p>
@@ -316,7 +316,7 @@ const MayorDashboard = () => {
           {/* Browse Issues */}
           {activeOperation === 'browse' && (
             <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
+              <div className="bg-linear-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary"><Icons.Browse /></div>
@@ -333,7 +333,7 @@ const MayorDashboard = () => {
                   <p className="text-center text-foreground/60 py-8">No complaints found</p>
                 ) : (
                   issues.slice(0, 10).map((issue) => (
-                    <div key={issue._id} className="rounded-xl border border-foreground/10 bg-gradient-to-r from-background to-white p-4 hover:shadow-md transition-all duration-200 group">
+                    <div key={issue._id} className="rounded-xl border border-foreground/10 bg-linear-to-r from-background to-white p-4 hover:shadow-md transition-all duration-200 group">
                       <div className="flex flex-col md:flex-row md:items-center gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -370,7 +370,7 @@ const MayorDashboard = () => {
           {/* Register Township Head */}
           {activeOperation === 'register-township' && (
             <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-purple-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
+              <div className="bg-linear-to-r from-purple-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-purple-100 text-purple-600"><Icons.Building /></div>
                   <div>
@@ -428,7 +428,7 @@ const MayorDashboard = () => {
           {/* Register UC Chairman */}
           {activeOperation === 'register-uc' && (
             <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-blue-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
+              <div className="bg-linear-to-r from-blue-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-blue-100 text-blue-600"><Icons.UserPlus /></div>
                   <div>
@@ -506,7 +506,7 @@ const MayorDashboard = () => {
           {/* Citizen Feedback */}
           {activeOperation === 'feedback' && (
             <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-secondary/5 to-primary/5 px-6 py-5 border-b border-foreground/10">
+              <div className="bg-linear-to-r from-secondary/5 to-primary/5 px-6 py-5 border-b border-foreground/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-secondary/10 text-secondary"><Icons.Feedback /></div>

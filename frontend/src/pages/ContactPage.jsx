@@ -130,7 +130,7 @@ const ContactPage = () => {
             {/* Contact Form */}
             <div className="lg:col-span-3">
               <div className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
+                <div className="bg-linear-to-r from-primary/5 to-secondary/5 px-6 py-5 border-b border-foreground/10">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-primary/10 text-primary"><Icons.Send /></div>
                     <div>
@@ -185,7 +185,7 @@ const ContactPage = () => {
             {/* FAQ Section */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm sticky top-24">
-                <div className="bg-gradient-to-r from-amber-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
+                <div className="bg-linear-to-r from-amber-50 to-primary/5 px-6 py-5 border-b border-foreground/10">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-amber-100 text-amber-600"><Icons.Question /></div>
                     <div>
@@ -197,7 +197,7 @@ const ContactPage = () => {
                 
                 <div className="p-5 space-y-4">
                   {faqs.map((faq, i) => (
-                    <div key={i} className="rounded-xl border border-foreground/10 bg-gradient-to-r from-background to-white p-4 hover:shadow-md transition-all">
+                    <div key={i} className="rounded-xl border border-foreground/10 bg-linear-to-r from-background to-white p-4 hover:shadow-md transition-all">
                       <p className="font-semibold text-foreground text-sm mb-2">{faq.q}</p>
                       <p className="text-foreground/60 text-sm">{faq.a}</p>
                     </div>
@@ -205,7 +205,7 @@ const ContactPage = () => {
                 </div>
 
                 {/* WhatsApp CTA */}
-                <div className="m-5 mt-0 rounded-xl bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20 p-5">
+                <div className="m-5 mt-0 rounded-xl bg-linear-to-br from-secondary/10 to-secondary/5 border border-secondary/20 p-5">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-lg bg-secondary/20 text-secondary"><Icons.WhatsApp /></div>
                     <div>

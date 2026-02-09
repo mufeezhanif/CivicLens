@@ -502,6 +502,96 @@
    TERRITORY TOOLTIPS
    ============================================ */
 
+/* Base Territory Tooltip Styling */
+.territory-tooltip.leaflet-tooltip {
+  background: white;
+  border: none;
+  padding: 0;
+  box-shadow: var(--map-shadow-lg);
+  border-radius: var(--map-radius);
+  min-width: 220px;
+  opacity: 1 !important;
+}
+
+.territory-tooltip.leaflet-tooltip::before {
+  display: none;
+}
+
+.territory-tooltip .leaflet-tooltip-content-wrapper {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* UC Tooltip */
+.uc-territory-tooltip .tooltip-header {
+  background: linear-gradient(135deg, var(--map-primary-light) 0%, var(--map-accent) 100%);
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-top-left-radius: var(--map-radius);
+  border-top-right-radius: var(--map-radius);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Town Tooltip */
+.town-territory-tooltip .tooltip-header {
+  background: linear-gradient(135deg, var(--map-primary) 0%, #0F5132 100%);
+  color: white;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-top-left-radius: var(--map-radius);
+  border-top-right-radius: var(--map-radius);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Tooltip Body */
+.tooltip-body {
+  padding: 14px 16px;
+  background: white;
+  border-bottom-left-radius: var(--map-radius);
+  border-bottom-right-radius: var(--map-radius);
+}
+
+/* Tooltip Rows */
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 13px;
+}
+
+.tooltip-label {
+  color: var(--map-text-muted);
+  font-weight: 500;
+  margin-right: 12px;
+}
+
+.tooltip-value {
+  color: var(--map-text);
+  font-weight: 600;
+  text-align: right;
+}
+
+.tooltip-value.pending {
+  color: #F59E0B;
+}
+
+.tooltip-value.resolved {
+  color: #10B981;
+}
+
+/* Tooltip Divider */
+.tooltip-divider {
+  height: 1px;
+  background: var(--map-border);
+  margin: 8px 0;
+}
+
+/* Old Simple Tooltips - Fallback */
 .town-tooltip {
   background: linear-gradient(135deg, var(--map-primary) 0%, #0F5132 100%);
   color: white;

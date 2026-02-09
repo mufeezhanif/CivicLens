@@ -527,7 +527,7 @@ exports.getSystemAnalytics = asyncHandler(async (req, res, next) => {
   const recentActivity = await AuditLog.find()
     .sort({ createdAt: -1 })
     .limit(20)
-    .populate('actor', 'name email role')
+    .populate('userId', 'name email role')
     .lean();
 
   const result = systemStats[0];

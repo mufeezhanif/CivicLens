@@ -100,8 +100,8 @@ const ComplaintCard = ({ complaint }) => {
               <Badge variant={getStatusVariant(complaint.status)}>
                 {complaint.status?.replace('_', ' ')}
               </Badge>
-              <Badge variant={getSeverityVariant(complaint.severity)}>
-                {complaint.severity}
+              <Badge variant={getSeverityVariant(complaint.severity?.priority || complaint.severity)}>
+                {complaint.severity?.priority || complaint.severity || 'medium'}
               </Badge>
               {complaint.category?.name && (
                 <Badge variant="outline">{complaint.category.name}</Badge>
@@ -111,7 +111,7 @@ const ComplaintCard = ({ complaint }) => {
               Submitted on {formatDate(complaint.createdAt)}
             </p>
           </div>
-          <ChevronRightIcon className="text-foreground/30 flex-shrink-0" />
+          <ChevronRightIcon className="text-foreground/30 shrink-0" />
         </div>
       </CardContent>
     </Card>

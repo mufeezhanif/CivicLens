@@ -3,31 +3,11 @@
  * Global authentication state management
  */
 
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { authApi } from '../services/api';
+import { ROLES, ROLE_HIERARCHY } from '../constants/roles';
 
 const AuthContext = createContext(null);
-
-// User roles hierarchy - matches backend roles
-export const ROLES = {
-  CITIZEN: 'citizen',
-  UC_CHAIRMAN: 'uc_chairman',
-  TOWN_CHAIRMAN: 'town_chairman',
-  MAYOR: 'mayor',
-  WEBSITE_ADMIN: 'website_admin',
-  // Aliases for convenience
-  ADMIN: 'website_admin',
-  TOWNSHIP_OFFICER: 'town_chairman',
-};
-
-// Role hierarchy for permission checks
-const ROLE_HIERARCHY = {
-  [ROLES.CITIZEN]: 1,
-  [ROLES.UC_CHAIRMAN]: 2,
-  [ROLES.TOWN_CHAIRMAN]: 3,
-  [ROLES.MAYOR]: 4,
-  [ROLES.WEBSITE_ADMIN]: 5,
-};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -158,22 +138,13 @@ export const AuthProvider = ({ children }) => {
    */
   const getDashboardPath = useCallback(() => {
     if (!user?.role) return '/login';
-    
-    switch (user.role) {
-      case 'website_admin':
-      case ROLES.WEBSITE_ADMIN:
-        return '/admin/dashboard';
-      case ROLES.MAYOR:
-        return '/mayor/dashboard';
-      case 'town_chairman':
-      case ROLES.TOWN_CHAIRMAN:
-        return '/township/dashboard';
-      case ROLES.UC_CHAIRMAN:
-        return '/uc/dashboard';
-      case ROLES.CITIZEN:
-      default:
-        return '/citizen/dashboard';
-    }
+    const paths = {
+      website_admin: '/admin/dashboard',
+      mayor: '/mayor/dashboard',
+      town_chairman: '/official/dashboard',
+      uc_chairman: '/official/dashboard',
+    };
+    return paths[user.role] || '/citizen/dashboard';
   }, [user]);
 
   /**
@@ -212,17 +183,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-/**
- * useAuth hook
- */
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };
 
 export default AuthContext;

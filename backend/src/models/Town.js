@@ -81,6 +81,14 @@ const townSchema = new mongoose.Schema({
     slaComplianceRate: { type: Number, default: 100 }, // percentage
   },
   metadata: {
+    district: {
+      type: String,
+      trim: true,
+    },
+    districtColor: {
+      type: String,
+      trim: true,
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -202,8 +210,18 @@ townSchema.statics.findByCity = function(cityId) {
  */
 townSchema.methods.updateStats = async function() {
   const UC = mongoose.model('UC');
-  const Complaint = mongoose.model('Complaint');
-  const Category = mongoose.model('Category');
+
+  // Complaint/Category may not be registered in seed scripts
+  let Complaint, Category;
+  try {
+    Complaint = mongoose.model('Complaint');
+    Category = mongoose.model('Category');
+  } catch {
+    // Models not registered (e.g. running seed scripts) - just update UC count
+    const ucCount = await UC.countDocuments({ town: this._id, isActive: true });
+    this.stats.totalUCs = ucCount;
+    return this.save();
+  }
 
   const [ucCount, complaintStats, slaStats] = await Promise.all([
     UC.countDocuments({ town: this._id, isActive: true }),

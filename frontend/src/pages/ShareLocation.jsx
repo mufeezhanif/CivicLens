@@ -31,7 +31,7 @@ const ShareLocation = () => {
 
         try {
           // Send location to backend
-          const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/whatsapp/location-callback`, {
+          const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'}/whatsapp/location-callback`, {
             phone,
             sessionId,
             latitude,
@@ -95,7 +95,7 @@ const ShareLocation = () => {
   }, [phone, sessionId, requestLocation]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
         <div className="text-center">
           {/* Logo/Icon */}

@@ -432,7 +432,7 @@ complaintSchema.pre('save', async function() {
 /**
  * Pre-update middleware to prevent modification of immutable fields
  */
-complaintSchema.pre(['updateOne', 'findOneAndUpdate', 'updateMany'], function(next) {
+complaintSchema.pre(['updateOne', 'findOneAndUpdate', 'updateMany'], function() {
   const update = this.getUpdate();
   
   // Check for attempts to modify immutable fields
@@ -452,10 +452,8 @@ complaintSchema.pre(['updateOne', 'findOneAndUpdate', 'updateMany'], function(ne
   if (modifyingImmutable) {
     const error = new Error('Cannot modify immutable complaint fields: ' + IMMUTABLE_FIELDS.join(', '));
     error.code = 'IMMUTABLE_FIELD_VIOLATION';
-    return next(error);
+    throw error;
   }
-  
-  next();
 });
 
 /**

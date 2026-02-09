@@ -166,7 +166,21 @@ citySchema.statics.findNearest = function(longitude, latitude) {
 citySchema.methods.updateStats = async function() {
   const Town = mongoose.model('Town');
   const UC = mongoose.model('UC');
-  const Complaint = mongoose.model('Complaint');
+
+  // Complaint may not be registered in seed scripts
+  let Complaint;
+  try {
+    Complaint = mongoose.model('Complaint');
+  } catch {
+    // Models not registered - just update counts
+    const [townCount, ucCount] = await Promise.all([
+      Town.countDocuments({ city: this._id, isActive: true }),
+      UC.countDocuments({ city: this._id, isActive: true }),
+    ]);
+    this.stats.totalTowns = townCount;
+    this.stats.totalUCs = ucCount;
+    return this.save();
+  }
 
   const [townCount, ucCount, complaintStats] = await Promise.all([
     Town.countDocuments({ city: this._id, isActive: true }),

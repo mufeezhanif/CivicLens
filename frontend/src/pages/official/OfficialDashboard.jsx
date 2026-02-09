@@ -116,8 +116,8 @@ const ComplaintRow = ({ complaint, onAction }) => (
       </Badge>
     </td>
     <td className="px-4 py-3">
-      <Badge variant={getSeverityVariant(complaint.severity)} size="sm">
-        {complaint.severity}
+      <Badge variant={getSeverityVariant(complaint.severity?.priority || complaint.severity)} size="sm">
+        {complaint.severity?.priority || complaint.severity || 'medium'}
       </Badge>
     </td>
     <td className="px-4 py-3 text-sm text-foreground/60">

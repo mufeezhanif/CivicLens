@@ -299,7 +299,7 @@ const ComplaintDetailPage = () => {
                 <div className="space-y-4">
                   {complaint.comments.map((comment, index) => (
                     <div key={index} className="flex gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary/15 text-primary font-semibold flex items-center justify-center text-sm flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-primary/15 text-primary font-semibold flex items-center justify-center text-sm shrink-0">
                         {comment.user?.name?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1">
@@ -337,8 +337,8 @@ const ComplaintDetailPage = () => {
                 </Badge>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant={getSeverityVariant(complaint.severity)}>
-                  {complaint.severity} severity
+                <Badge variant={getSeverityVariant(complaint.severity?.priority || complaint.severity)}>
+                  {complaint.severity?.priority || complaint.severity || 'medium'} severity
                 </Badge>
               </div>
               {complaint.category && (

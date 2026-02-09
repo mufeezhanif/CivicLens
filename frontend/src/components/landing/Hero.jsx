@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-secondary/10">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-background via-background to-secondary/10">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating circles */}
@@ -29,7 +29,7 @@ const Hero = () => {
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 animate-slide-up">
               Centralized Platform for{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
                 Urban Issue Management
               </span>
             </h1>
@@ -87,7 +87,7 @@ const Hero = () => {
                 </div>
                 
                 {/* Map placeholder */}
-                <div className="relative bg-gradient-to-br from-secondary/20 to-primary/20 rounded-xl h-48 mb-4 overflow-hidden">
+                <div className="relative bg-linear-to-br from-secondary/20 to-primary/20 rounded-xl h-48 mb-4 overflow-hidden">
                   {/* Grid lines */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#16653420_1px,transparent_1px),linear-gradient(to_bottom,#16653420_1px,transparent_1px)] bg-[size:2rem_2rem]" />
                   

@@ -420,19 +420,19 @@ const InvitationPage = () => {
           <h3 className="font-semibold text-blue-900 mb-2">How Invitations Work</h3>
           <ul className="space-y-2 text-sm text-blue-700">
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 flex-shrink-0 mt-0.5">1</span>
+              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 shrink-0 mt-0.5">1</span>
               <span>Enter the email address of the person you want to invite.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 flex-shrink-0 mt-0.5">2</span>
+              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 shrink-0 mt-0.5">2</span>
               <span>Select the {config.entityLabel.toLowerCase()} they will manage.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 flex-shrink-0 mt-0.5">3</span>
+              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 shrink-0 mt-0.5">3</span>
               <span>They will receive an email with a registration link valid for 24 hours.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 flex-shrink-0 mt-0.5">4</span>
+              <span className="w-5 h-5 bg-blue-200 rounded-full flex items-center justify-center text-xs font-bold text-blue-800 shrink-0 mt-0.5">4</span>
               <span>Once they complete registration, they'll be assigned to the selected {config.entityLabel.toLowerCase()}.</span>
             </li>
           </ul>

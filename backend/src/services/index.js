@@ -12,6 +12,13 @@ const authService = require('./authService');
 const ucAssignmentService = require('./ucAssignmentService');
 const invitationService = require('./invitationService');
 
+// New services
+const websocketService = require('./websocketService');
+const pushNotificationService = require('./pushNotificationService');
+const escalationService = require('./escalationService');
+const dataRetentionService = require('./dataRetentionService');
+const redisService = require('./redisService');
+
 module.exports = {
   complaintService,
   geoService,
@@ -26,4 +33,10 @@ module.exports = {
   authService,
   ucAssignmentService,
   invitationService,
+  // New services
+  websocketService,
+  pushNotificationService,
+  escalationService,
+  dataRetentionService,
+  redisService,
 };

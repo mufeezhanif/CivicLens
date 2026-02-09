@@ -68,8 +68,8 @@ const ComplaintCard = ({ complaint, onUpdateStatus, onView }) => (
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
-            <Badge variant={getSeverityVariant(complaint.severity)} size="sm">
-              {complaint.severity}
+            <Badge variant={getSeverityVariant(complaint.severity?.priority || complaint.severity)} size="sm">
+              {complaint.severity?.priority || complaint.severity || 'medium'}
             </Badge>
             <Badge variant={getStatusVariant(complaint.status)} size="sm">
               {complaint.status?.replace('_', ' ')}

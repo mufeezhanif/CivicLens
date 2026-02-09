@@ -5,8 +5,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts';
+import { useAuth, useNetwork } from '../../contexts';
 import useUiStore from '../../store/uiStore';
+import { useWebSocket } from '../../hooks/useWebSocket';
 
 // Icon components
 const Icons = {
@@ -55,6 +56,8 @@ const DashboardNavbar = ({ title }) => {
   const notificationRef = useRef(null);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { isOnline } = useNetwork();
+  const { isConnected: wsConnected } = useWebSocket({ autoConnect: true });
   const { 
     toggleMobileMenu, 
     unreadCount,
@@ -65,6 +68,9 @@ const DashboardNavbar = ({ title }) => {
     markAsRead,
     markAllAsRead,
   } = useUiStore();
+
+  // Determine connection status
+  const connectionStatus = !isOnline ? 'offline' : wsConnected ? 'connected' : 'reconnecting';
 
   // Close menus on outside click
   useEffect(() => {
@@ -126,7 +132,18 @@ const DashboardNavbar = ({ title }) => {
   };
 
   return (
-    <header className="bg-white border-b border-foreground/10 px-6 py-4">
+    <>
+      {/* Offline Mode Banner */}
+      {!isOnline && (
+        <div className="bg-amber-500 text-white px-4 py-2 text-center text-sm font-medium flex items-center justify-center gap-2">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+          </svg>
+          <span>You are offline. Changes will sync when you reconnect.</span>
+        </div>
+      )}
+      
+      <header className="bg-white border-b border-foreground/10 px-6 py-4">
       <div className="flex items-center justify-between gap-4">
         {/* Left: Mobile menu + Title */}
         <div className="flex items-center gap-4">
@@ -157,8 +174,50 @@ const DashboardNavbar = ({ title }) => {
           </div>
         </form>
 
-        {/* Right: Notifications + User Menu */}
+        {/* Right: Connection Status + Notifications + User Menu */}
         <div className="flex items-center gap-2">
+          {/* Connection Status Indicator */}
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-foreground/5">
+            <div className="relative">
+              <div 
+                className={`w-2.5 h-2.5 rounded-full ${
+                  connectionStatus === 'connected' 
+                    ? 'bg-green-500' 
+                    : connectionStatus === 'reconnecting' 
+                      ? 'bg-yellow-500' 
+                      : 'bg-red-500'
+                }`}
+              />
+              {connectionStatus === 'reconnecting' && (
+                <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-yellow-500 animate-ping" />
+              )}
+            </div>
+            <span className="text-xs text-foreground/60">
+              {connectionStatus === 'connected' 
+                ? 'Live' 
+                : connectionStatus === 'reconnecting' 
+                  ? 'Reconnecting...' 
+                  : 'Offline'}
+            </span>
+          </div>
+          
+          {/* Mobile Connection Status (dot only) */}
+          <div className="sm:hidden relative p-2">
+            <div 
+              className={`w-2.5 h-2.5 rounded-full ${
+                connectionStatus === 'connected' 
+                  ? 'bg-green-500' 
+                  : connectionStatus === 'reconnecting' 
+                    ? 'bg-yellow-500' 
+                    : 'bg-red-500'
+              }`}
+              title={connectionStatus === 'connected' ? 'Connected' : connectionStatus === 'reconnecting' ? 'Reconnecting...' : 'Offline'}
+            />
+            {connectionStatus === 'reconnecting' && (
+              <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-yellow-500 animate-ping" style={{ top: '8px', left: '8px' }} />
+            )}
+          </div>
+
           {/* Notifications */}
           <div className="relative" ref={notificationRef}>
             <button
@@ -176,7 +235,7 @@ const DashboardNavbar = ({ title }) => {
             {/* Notifications Panel */}
             {notificationsOpen && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-lg border border-foreground/10 z-50 overflow-hidden">
-                <div className="px-4 py-3 border-b border-foreground/10 flex items-center justify-between bg-gradient-to-r from-primary/5 to-transparent">
+                <div className="px-4 py-3 border-b border-foreground/10 flex items-center justify-between bg-linear-to-r from-primary/5 to-transparent">
                   <h3 className="font-semibold text-foreground">Notifications</h3>
                   {unreadCount > 0 && (
                     <button 
@@ -207,7 +266,7 @@ const DashboardNavbar = ({ title }) => {
                         }`}
                       >
                         <div className="flex items-start gap-3">
-                          <div className={`w-2 h-2 mt-2 rounded-full flex-shrink-0 ${
+                          <div className={`w-2 h-2 mt-2 rounded-full shrink-0 ${
                             !notification.read ? 'bg-primary' : 'bg-transparent'
                           }`} />
                           <div className="flex-1 min-w-0">
@@ -300,6 +359,7 @@ const DashboardNavbar = ({ title }) => {
         </div>
       </div>
     </header>
+    </>
   );
 };
 

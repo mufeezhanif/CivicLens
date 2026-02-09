@@ -88,7 +88,7 @@ const BlockchainStatus = ({
 
   // Full status card
   return (
-    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-4">
+    <div className="bg-linear-to-r from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className="p-2 bg-indigo-100 rounded-lg">

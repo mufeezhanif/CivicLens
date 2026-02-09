@@ -425,7 +425,7 @@ const CitizenDashboard = () => {
           </div>
           <Link
             to="/map"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-green-500/25 transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-green-600 to-emerald-600 text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-green-500/25 transition-all"
           >
             <Icons.Map />
             View City Map
@@ -458,7 +458,7 @@ const CitizenDashboard = () => {
             onClick={() => setActiveOperation(op.id)}
             className={`flex items-center gap-3 px-5 py-3 rounded-xl border-2 transition-all duration-200 min-w-fit ${
               activeOperation === op.id
-                ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-green-600 shadow-lg shadow-green-500/25'
+                ? 'bg-linear-to-r from-green-600 to-emerald-600 text-white border-green-600 shadow-lg shadow-green-500/25'
                 : 'bg-white border-foreground/10 hover:border-green-300 hover:bg-green-50'
             }`}
           >
@@ -476,7 +476,7 @@ const CitizenDashboard = () => {
       {/* Report Issue Section */}
       {activeOperation === 'report' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-5">
+          <div className="bg-linear-to-r from-green-600 to-emerald-600 px-6 py-5">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-white/20 text-white"><Icons.Report /></div>
               <div>
@@ -589,7 +589,7 @@ const CitizenDashboard = () => {
               <button 
                 type="submit" 
                 disabled={submitting}
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-green-500/25 disabled:opacity-50 transition-all flex items-center gap-2"
+                className="px-8 py-3 rounded-xl bg-linear-to-r from-green-600 to-emerald-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-green-500/25 disabled:opacity-50 transition-all flex items-center gap-2"
               >
                 {submitting ? (
                   <>
@@ -620,7 +620,7 @@ const CitizenDashboard = () => {
       {/* Feedback Section */}
       {activeOperation === 'feedback' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-teal-600 to-emerald-600 px-6 py-5">
+          <div className="bg-linear-to-r from-teal-600 to-emerald-600 px-6 py-5">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-white/20 text-white"><Icons.Feedback /></div>
               <div>
@@ -661,7 +661,7 @@ const CitizenDashboard = () => {
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
               <p className="text-xs text-foreground/50">Your feedback helps us improve</p>
-              <button type="submit" className="px-8 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all flex items-center gap-2">Submit Feedback<Icons.ArrowRight /></button>
+              <button type="submit" className="px-8 py-3 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all flex items-center gap-2">Submit Feedback<Icons.ArrowRight /></button>
             </div>
           </form>
           {feedbackSuccess && (
@@ -676,7 +676,7 @@ const CitizenDashboard = () => {
       {/* Browse Issues Section */}
       {activeOperation === 'browse' && (
         <section className="bg-white rounded-2xl border border-foreground/10 overflow-hidden shadow-sm">
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-5">
+          <div className="bg-linear-to-r from-green-600 to-emerald-600 px-6 py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-xl bg-white/20 text-white"><Icons.Browse /></div>
@@ -702,7 +702,7 @@ const CitizenDashboard = () => {
               <p className="text-foreground/60 mb-6">You haven't submitted any complaints yet.</p>
               <button
                 onClick={() => setActiveOperation('report')}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-medium text-sm hover:shadow-lg hover:shadow-green-500/25 transition-all"
+                className="px-6 py-2.5 rounded-xl bg-linear-to-r from-green-600 to-emerald-600 text-white font-medium text-sm hover:shadow-lg hover:shadow-green-500/25 transition-all"
               >
                 Report Your First Issue
               </button>
@@ -713,7 +713,7 @@ const CitizenDashboard = () => {
                 {issues.map((issue, index) => (
                   <div 
                     key={issue.id} 
-                    className="group relative rounded-xl border-2 border-foreground/5 bg-gradient-to-br from-white to-gray-50 p-5 hover:border-green-200 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden"
+                    className="group relative rounded-xl border-2 border-foreground/5 bg-linear-to-br from-white to-gray-50 p-5 hover:border-green-200 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden"
                     onClick={() => navigate(`/citizen/complaints/${issue.id}`)}
                   >
                     {/* Decorative accent */}
@@ -726,7 +726,7 @@ const CitizenDashboard = () => {
                     
                     <div className="flex flex-col lg:flex-row lg:items-center gap-4 pl-3">
                       {/* Category Icon */}
-                      <div className={`hidden lg:flex w-12 h-12 rounded-xl items-center justify-center flex-shrink-0 ${
+                      <div className={`hidden lg:flex w-12 h-12 rounded-xl items-center justify-center shrink-0 ${
                         issue.category?.primary === 'Roads' ? 'bg-orange-100 text-orange-600' :
                         issue.category?.primary === 'Water' ? 'bg-blue-100 text-blue-600' :
                         issue.category?.primary === 'Garbage' ? 'bg-amber-100 text-amber-600' :
@@ -794,7 +794,7 @@ const CitizenDashboard = () => {
               </div>
             </div>
           )}
-          <div className="px-6 py-4 border-t border-foreground/10 bg-gradient-to-r from-green-50 to-emerald-50">
+          <div className="px-6 py-4 border-t border-foreground/10 bg-linear-to-r from-green-50 to-emerald-50">
             <Link to="/citizen/complaints" className="text-sm font-semibold text-green-700 hover:text-green-800 flex items-center gap-1 transition-colors">
               View all complaints
               <Icons.ArrowRight />

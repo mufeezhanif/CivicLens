@@ -31,7 +31,7 @@ const getPageTitle = (pathname) => {
     // Mayor routes
     '/mayor/dashboard': 'Dashboard',
     '/mayor/complaints': 'All Complaints',
-    '/mayor/map': 'City Map',
+    '/map': 'City Map',
     '/mayor/analytics': 'Analytics',
     '/mayor/reports': 'Reports',
     

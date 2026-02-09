@@ -1,6 +1,12 @@
 const multer = require('multer');
 const path = require('path');
 const { AppError } = require('./errorHandler');
+const {
+  validateImageFile,
+  compressImages,
+  addImageHash,
+  processImagesPipeline,
+} = require('./imageProcessing');
 
 /**
  * Allowed MIME types for image uploads
@@ -10,12 +16,13 @@ const ALLOWED_MIME_TYPES = [
   'image/jpg',
   'image/png',
   'image/webp',
+  'image/gif',
 ];
 
 /**
- * File size limit (5MB)
+ * File size limit (10MB for initial upload, compression will reduce)
  */
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 /**
  * Maximum number of files per upload
@@ -38,7 +45,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new AppError(
-        `Invalid file type: ${file.mimetype}. Allowed types: jpeg, jpg, png, webp`,
+        `Invalid file type: ${file.mimetype}. Allowed types: jpeg, jpg, png, webp, gif`,
         400
       ),
       false
@@ -120,18 +127,42 @@ const uploadSingleImageMiddleware = (req, res, next) => {
 };
 
 /**
+ * Full image upload pipeline with validation and compression
+ * 1. Multer upload
+ * 2. Deep file validation (magic bytes, structure)
+ * 3. Image compression (Sharp.js)
+ * 4. Image hash generation (for deduplication)
+ */
+const uploadAndProcessImages = [
+  uploadImagesMiddleware,
+  validateImageFile,
+  compressImages,
+  addImageHash,
+];
+
+/**
+ * Full single image upload pipeline
+ */
+const uploadAndProcessSingleImage = [
+  uploadSingleImageMiddleware,
+  validateImageFile,
+  compressImages,
+  addImageHash,
+];
+
+/**
  * Validate uploaded files (additional validation after multer)
  */
 const validateUploadedFiles = (req, res, next) => {
   if (req.files && req.files.length > 0) {
-    // Additional validation can be added here
-    // For example, checking image dimensions, scanning for malware, etc.
-    
     // Log file info in development
     if (process.env.NODE_ENV === 'development') {
       console.log(`Uploaded ${req.files.length} file(s):`);
       req.files.forEach((file, index) => {
-        console.log(`  ${index + 1}. ${file.originalname} (${file.size} bytes)`);
+        const info = file.processingInfo 
+          ? ` (${file.processingInfo.compressionRatio} compression)`
+          : '';
+        console.log(`  ${index + 1}. ${file.originalname} (${file.size} bytes)${info}`);
       });
     }
   }
@@ -144,6 +175,8 @@ module.exports = {
   uploadSingleImage,
   uploadImagesMiddleware,
   uploadSingleImageMiddleware,
+  uploadAndProcessImages,
+  uploadAndProcessSingleImage,
   validateUploadedFiles,
   handleUploadError,
   ALLOWED_MIME_TYPES,
